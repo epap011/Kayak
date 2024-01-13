@@ -15,6 +15,7 @@
 
 use std::sync::Once;
 use time::PreciseTime;
+use std::arch::asm;
 
 static mut CYCLES_PER_SECOND: u64 = 0;
 static INIT: Once = Once::new();
@@ -74,7 +75,8 @@ pub fn rdtsc() -> u64 {
     unsafe {
         let lo: u32;
         let hi: u32;
-        llvm_asm!("rdtsc" : "={eax}"(lo), "={edx}"(hi) : : : "volatile");
+        //llvm_asm!("rdtsc" : "={eax}"(lo), "={edx}"(hi) : : : "volatile");
+        asm!("rdtsc", out("eax") lo, out("edx") hi, options(nomem, nostack));
         ((hi as u64) << 32) | lo as u64
     }
 }

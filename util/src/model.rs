@@ -23,6 +23,8 @@ use std::path::Path;
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 
+use std::arch::asm;
+
 use rustlearn::ensemble::random_forest;
 use rustlearn::linear_models::sgdclassifier;
 use rustlearn::metrics;
@@ -37,8 +39,9 @@ pub fn rdtsc() -> u64 {
     unsafe {
         let lo: u32;
         let hi: u32;
-        llvm_asm!("rdtsc" : "={eax}"(lo), "={edx}"(hi) : : : "volatile");
-        ((hi as u64) << 32) | lo as u64
+        //llvm_asm!("rdtsc" : "={eax}"(lo), "={edx}"(hi) : : : "volatile");
+        asm!("rdtsc" , out("eax") lo, out("edx") hi, options(nomem, nostack, preserves_flags));
+	((hi as u64) << 32) | lo as u64
     }
 }
 

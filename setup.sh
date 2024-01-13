@@ -12,8 +12,8 @@ fi
 
 source $HOME/.cargo/env
 # Use nightly-2021-03-24
-rustup toolchain install nightly-2021-03-24 --force
-rustup default nightly-2021-03-24
+rustup toolchain install nightly-2023-03-03 --force
+rustup default nightly-2023-03-03
 #rustup default nightly
 #rustup update
 

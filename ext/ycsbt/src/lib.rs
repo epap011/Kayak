@@ -16,12 +16,13 @@
 #![crate_type = "dylib"]
 // Disable this because rustc complains about no_mangle being unsafe
 //#![forbid(unsafe_code)]
-#![feature(generators, generator_trait, llvm_asm)]
+#![feature(generators, generator_trait)]
 
 extern crate sandstorm;
 
 use std::ops::Generator;
 use std::rc::Rc;
+use std::arch::asm;
 
 use sandstorm::db::DB;
 use sandstorm::Pin;
@@ -32,7 +33,8 @@ pub fn rdtsc() -> u64 {
     unsafe {
         let lo: u32;
         let hi: u32;
-        llvm_asm!("rdtsc" : "={eax}"(lo), "={edx}"(hi) : : : "volatile");
+        //llvm_asm!("rdtsc" : "={eax}"(lo), "={edx}"(hi) : : : "volatile");
+        asm!("rdtsc", out("eax") lo, out("edx") hi, options(nomem, nostack));
         ((hi as u64) << 32) | lo as u64
     }
 }
