@@ -43,7 +43,7 @@ context.defineParameter("image", "Disk Image",
 
 # Default the node type to the d430.
 context.defineParameter("type", "Node Type",
-        portal.ParameterType.NODETYPE, nodes[0], nodes,
+        portal.ParameterType.NODETYPE, nodes[3], nodes,
         "Specify the type of nodes the cluster should be configured with. " +\
         "For more details, refer to " +\
         "\"http://docs.cloudlab.us/hardware.html#%28part._apt-cluster%29\"")
